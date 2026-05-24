@@ -19,10 +19,6 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
-  //db and collections
-  const db = client.db("portfolio");
-  const projectCollection = db.collection("projects");
-  //-----
   try {
     await client.connect();
     await client.db("admin").command({ ping: 1 });
@@ -30,6 +26,10 @@ async function run() {
       "Pinged your deployment. You successfully connected to MongoDB!",
     );
 
+    //db and collections
+    const db = client.db("portfolio");
+    const projectCollection = db.collection("projects");
+    //-----
     //api
     app.get("/projects", async (req, res) => {
       const result = await projectCollection.find().toArray();
