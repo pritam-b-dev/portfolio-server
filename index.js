@@ -5,6 +5,7 @@ const cors = require("cors");
 app.use(cors());
 const dotenv = require("dotenv");
 dotenv.config();
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const uri = process.env.MONGODB_URI;
 
@@ -17,6 +18,10 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
+  //creating collections
+  const db = client.db("portfolio");
+  const projectCollection = db.collection("projects");
+  //-----
   try {
     await client.connect();
     await client.db("admin").command({ ping: 1 });
@@ -25,9 +30,8 @@ async function run() {
     );
 
     //api
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+  } catch (error) {
+    console.error(error);
   }
 }
 run().catch(console.dir);
