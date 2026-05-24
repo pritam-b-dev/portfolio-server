@@ -35,6 +35,13 @@ async function run() {
       const result = await projectCollection.find().toArray();
       res.json(result);
     });
+    app.post("/projects", async (req, res) => {
+      const projectData = req.body;
+      const result = await projectCollection.insertOne(projectData);
+      res.json(result);
+    });
+    //api section ends
+    //-----
   } catch (error) {
     console.error(error);
   }
