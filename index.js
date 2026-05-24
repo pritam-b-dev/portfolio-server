@@ -18,7 +18,7 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
-  //creating collections
+  //db and collections
   const db = client.db("portfolio");
   const projectCollection = db.collection("projects");
   //-----
@@ -30,6 +30,10 @@ async function run() {
     );
 
     //api
+    app.get("/projects", async (req, res) => {
+      const result = await projectCollection.find().toArray();
+      res.json(result);
+    });
   } catch (error) {
     console.error(error);
   }
